@@ -1,0 +1,17 @@
+version: '2.2'
+
+services:
+  web:
+    build: ./backend
+    command: python manage.py run -h 0.0.0.0
+    volumes:
+      - ./backend/:/usr/src/app/
+      - ./datasets:/datasets
+    ports:
+      - 5500:5000
+    env_file:
+      - ./.env.dev
+    mem_reservation: "250M"
+    mem_limit: "2G"
+    cpus: 1.0
+    cpu_count: 1
