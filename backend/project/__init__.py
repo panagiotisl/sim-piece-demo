@@ -45,9 +45,56 @@ def hello_world():
 
 @app.route("/load/")
 @cross_origin()
-def load_file_to_db_using_algorithm():
+def load_file_to_db_using_error():
     error = request.args['error']
     filenames = request.args['filenames'].split(',')
     filenames.sort()
     time.sleep(1)
     return jsonify(uncompressed=5.3, simpiece=1.2)
+
+@app.route("/select/")
+@cross_origin()
+def select_file_from_db_using_error():
+    error = request.args['error']
+    filenames = request.args['filenames'].split(',')
+    filenames.sort()
+    time.sleep(1)
+    return { "labels": [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18' ],
+            "datasets": [
+                {
+                "label": 'Uncompressed',
+                "data": [12.3, 12.4, 12.3, 12.2, 12.1, 11.0, 10.9, 9.5, 9.3, 9.1, 10.1, 11.1, 11.2, 11.2, 11.2, 11.1, 11.0, 11.0]
+                },
+                {
+                "label": 'Sim-Piece',
+                "data": [12.35, 12.41, 12.32, 12.22, 12.11, 11.07, 10.93, 9.4, 9.35, 9.12, 10.15, 11.12, 11.27, 11.25, 11.29, 11.11, 11.11, 11.01]
+                }],
+            "rmse": 1.04,
+            "mae": 0.98
+            }
+
+@app.route("/forecast/")
+@cross_origin()
+def forecast_file_using_error():
+    error = request.args['error']
+    filenames = request.args['filenames'].split(',')
+    filenames.sort()
+    time.sleep(1)
+    return { "labels": [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18' ],
+            "datasets": [
+                {
+                "label": 'Original',
+                "data": [12.3, 12.4, 12.3, 12.2, 12.1, 11.0, 10.9, 9.5, 9.3, 9.1, 10.1, 11.1, 11.2, 11.2, 11.2]
+                },
+                {
+                "label": 'Uncompressed Forecast',
+                "data": [None, None, None, None, None, None, None, None, None, None, None, None, None, None, 11.2, 11.05, 11.05, 11.01]
+                },
+                {
+                "label": 'Sim-Piece Forecast',
+                "data": [None, None, None, None, None, None, None, None, None, None, None, None, None, None, 11.2, 11.11, 11.11, 11.01]
+                }],
+            "rmse": 1.04,
+            "mae": 0.98
+            }
+

@@ -15,7 +15,7 @@ import { MemLineChartComponent2} from './components/mem-line-chart/mem-line-char
 
 import { ViewModalComponent } from './view-modal/view-modal.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import {Subscription, timer} from 'rxjs';  
+import {concat, Subscription, timer} from 'rxjs';  
 import { map } from 'rxjs/operators';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -48,12 +48,17 @@ export class AppComponent {
 "wind_direction_2019_09.csv.gz": 4837905, "wind_direction_2019_10.csv.gz": 4984065, "wind_direction_2019_11.csv.gz": 4817024,
 "wind_direction_2019_12.csv.gz": 4977584}
 
-range: { [id: string] : number; } = {"bio_2019_01.csv.gz": 8347681, "bio_2019_01_01.csv.gz": 269281, "pressure_air_2019-01.csv.gz": 52.8, "pressure_air_2019-02.csv.gz": 52.1,
+  range: { [id: string] : number; } = {"bio_2019_01.csv.gz": 8347681, "bio_2019_01_01.csv.gz": 269281, "pressure_air_2019-01.csv.gz": 52.8, "pressure_air_2019-02.csv.gz": 52.1,
 "pressure_air_2019-03.csv.gz": 53.2, "wind_direction_2019_01.csv.gz": 4865761, "wind_direction_2019_02.csv.gz": 4395099,
 "wind_direction_2019_03.csv.gz": 4875339, "wind_direction_2019_04.csv.gz": 4730620, "wind_direction_2019_05.csv.gz": 4999900,
 "wind_direction_2019_06.csv.gz": 4838625, "wind_direction_2019_07.csv.gz": 4999905, "wind_direction_2019_08.csv.gz": 4999905,
 "wind_direction_2019_09.csv.gz": 4837905, "wind_direction_2019_10.csv.gz": 4984065, "wind_direction_2019_11.csv.gz": 4817024,
 "wind_direction_2019_12.csv.gz": 4977584}
+
+  selectMae: 0;
+  selectRmse: 0;
+  forecastMae: 0;
+  forecastRmse: 0;
 
   constructor(private route: ActivatedRoute,
     private router: Router, private appService: AppService, fb: FormBuilder, library: FaIconLibrary,
@@ -96,6 +101,38 @@ range: { [id: string] : number; } = {"bio_2019_01.csv.gz": 8347681, "bio_2019_01
     document.body.style.cursor = 'default'
     this.btnstate = false
   }
+
+  async accuracyFileSubmit(event: any ) {
+    this.btnstate = true
+    document.body.style.cursor = 'wait'
+    this.cpuLineChart1.update([ 0, 0, 0 ])
+    console.log(this.form.value);
+    console.log(this.form.controls['error'])
+    var output = await this.appService.executeSelectService(this.form.value, event.target.error.value)
+    console.log(output)
+    this.cpuLineChart1.update(output)
+    this.selectMae = output.mae;
+    this.selectRmse = output.rmse;
+    document.body.style.cursor = 'default'
+    this.btnstate = false
+  }
+
+
+  async forecastFileSubmit(event: any ) {
+    this.btnstate = true
+    document.body.style.cursor = 'wait'
+    this.cpuLineChart2.update([ 0, 0, 0 ])
+    var output = await this.appService.executeForecastService(this.form.value, event.target.error.value)
+    console.log(output)
+    this.cpuLineChart2.update(output)
+    this.forecastMae = output.mae;
+    this.forecastRmse = output.rmse;
+    console.log(this.forecastMae);
+    console.log(this.forecastRmse);
+    document.body.style.cursor = 'default'
+    this.btnstate = false
+  }
+
 
   async head(file : string) {
     var head = await this.appService.head(file)

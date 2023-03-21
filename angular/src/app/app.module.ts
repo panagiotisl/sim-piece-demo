@@ -16,7 +16,6 @@ import { CpuLineChartComponent2} from './components/cpu-line-chart/cpu-line-char
 import { MemLineChartComponent} from './components/mem-line-chart/mem-line-chart.component';
 import { MemLineChartComponent2} from './components/mem-line-chart/mem-line-chart.component';
 import { QueryTimeBarChartComponent} from './components/query-time-bar-chart/query-time-bar-chart.component';
-import { SqlEditorComponent } from './sql-editor/sql-editor.component';
 
 @NgModule({
   declarations: [
@@ -27,8 +26,7 @@ import { SqlEditorComponent } from './sql-editor/sql-editor.component';
     CpuLineChartComponent2,
     MemLineChartComponent,
     MemLineChartComponent2,
-    QueryTimeBarChartComponent,
-    SqlEditorComponent
+    QueryTimeBarChartComponent
   ],
   imports: [
     BrowserModule,

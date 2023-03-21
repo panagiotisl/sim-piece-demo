@@ -17,8 +17,6 @@ export class CpuLineChartComponent implements OnInit {
     scales: {
       x: {},
       y: {
-        min: 0,
-        max: 200
       }
     },
     plugins: {
@@ -26,7 +24,7 @@ export class CpuLineChartComponent implements OnInit {
         display: true
       },
       title: {
-        display: true,
+        display: false,
         text: 'CPU Utilization'
       },
     }
@@ -44,13 +42,9 @@ export class CpuLineChartComponent implements OnInit {
       data: []
     },
     {
-      label: 'Chimp',
+      label: 'Sim-Piece',
       data: []
     },
-    {
-      label: 'Patas',
-      data: []
-    }
     ]
   };
 
@@ -60,7 +54,9 @@ export class CpuLineChartComponent implements OnInit {
   }
 
   public update(data : any): void {
-    this.chartCpuChartData.datasets = data;
+    console.log("UPDATING")
+    console.log(data)
+    this.chartCpuChartData = data;
     this.chart?.update();
   }
 
