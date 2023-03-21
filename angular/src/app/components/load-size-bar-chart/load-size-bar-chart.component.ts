@@ -36,9 +36,9 @@ export class LoadSizeBarChartComponent implements OnInit {
   ];
 
   public chartLoadSizeChartData: ChartData<'bar'> = {
-    labels: [ 'Uncompressed', 'Chimp', 'Patas' ],
+    labels: [ 'Uncompressed', 'Sim-Piece'],
     datasets: [
-      { data: [ 0, 0, 0 ], label: '', backgroundColor: ['#FA747DAA', "#09A837AA", "#0455D8AA"] }
+      { data: [ 0, 0], label: '', backgroundColor: ['#FA747DAA', "#09A837AA" ] }
     ]
   };
 

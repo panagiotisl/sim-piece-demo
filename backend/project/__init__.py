@@ -42,3 +42,12 @@ def hello_world():
     csvfiles = [{"name": f, "size": str(f'{float(file_size(path + f)):.2f}') + 'MB'} for f in csvfiles]
     return jsonify(files=csvfiles)
 
+
+@app.route("/load/")
+@cross_origin()
+def load_file_to_db_using_algorithm():
+    error = request.args['error']
+    filenames = request.args['filenames'].split(',')
+    filenames.sort()
+    time.sleep(1)
+    return jsonify(uncompressed=5.3, simpiece=1.2)

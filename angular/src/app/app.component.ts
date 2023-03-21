@@ -48,11 +48,19 @@ export class AppComponent {
 "wind_direction_2019_09.csv.gz": 4837905, "wind_direction_2019_10.csv.gz": 4984065, "wind_direction_2019_11.csv.gz": 4817024,
 "wind_direction_2019_12.csv.gz": 4977584}
 
+range: { [id: string] : number; } = {"bio_2019_01.csv.gz": 8347681, "bio_2019_01_01.csv.gz": 269281, "pressure_air_2019-01.csv.gz": 52.8, "pressure_air_2019-02.csv.gz": 52.1,
+"pressure_air_2019-03.csv.gz": 53.2, "wind_direction_2019_01.csv.gz": 4865761, "wind_direction_2019_02.csv.gz": 4395099,
+"wind_direction_2019_03.csv.gz": 4875339, "wind_direction_2019_04.csv.gz": 4730620, "wind_direction_2019_05.csv.gz": 4999900,
+"wind_direction_2019_06.csv.gz": 4838625, "wind_direction_2019_07.csv.gz": 4999905, "wind_direction_2019_08.csv.gz": 4999905,
+"wind_direction_2019_09.csv.gz": 4837905, "wind_direction_2019_10.csv.gz": 4984065, "wind_direction_2019_11.csv.gz": 4817024,
+"wind_direction_2019_12.csv.gz": 4977584}
+
   constructor(private route: ActivatedRoute,
     private router: Router, private appService: AppService, fb: FormBuilder, library: FaIconLibrary,
     private viewModalService: MdbModalService) {
       this.form = fb.group({
-       selectedFiles:  new FormArray([])
+       selectedFiles:  new FormArray([]),
+       error: 2.0
       });
       library.addIcons(faEye);
     }
@@ -64,19 +72,7 @@ export class AppComponent {
           this.files.push(file);
         }
       });
-       this.timerSubscription = timer(0, 2000).pipe( 
-        map(async () => { 
-          var cpu = await this.appService.executeGetCpuStats();
-          this.cpuLineChart1.update(cpu);
-          this.cpuLineChart2.update(cpu);
-          var mem = await this.appService.executeGetMemStats();
-          this.memLineChart1.update(mem);
-          this.memLineChart2.update(mem);
-        }) 
-      ).subscribe(); 
     }
-
-    
     
   onCheckboxChange(event: any) {
     const selectedFiles = (this.form.controls['selectedFiles'] as FormArray);
@@ -89,21 +85,14 @@ export class AppComponent {
     }
   }
 
-  async loadFileSubmit() {
+  async loadFileSubmit(event: any ) {
     this.btnstate = true
     document.body.style.cursor = 'wait'
     this.loadSizeBarChart.update([ 0, 0, 0 ])
-    this.loadTimeBarChart.update([ 0, 0, 0 ])
     console.log(this.form.value);
-    var uncompressed = await this.appService.executeLoadUncompressedService(this.form.value)
-    this.loadSizeBarChart.update([ uncompressed.size, 0, 0 ])
-    this.loadTimeBarChart.update([ uncompressed.time, 0, 0 ])
-    var chimp = await this.appService.executeLoadChimpService(this.form.value)
-    this.loadSizeBarChart.update([ uncompressed.size, chimp.size, 0 ])
-    this.loadTimeBarChart.update([ uncompressed.time, chimp.time, 0 ])
-    var patas = await this.appService.executeLoadPatasService(this.form.value)
-    this.loadSizeBarChart.update([ uncompressed.size, chimp.size, patas.size ])
-    this.loadTimeBarChart.update([ uncompressed.time, chimp.time, patas.time ])   
+    console.log(this.form.controls['error'])
+    var output = await this.appService.executeLoadService(this.form.value, event.target.error.value)
+    this.loadSizeBarChart.update([ output.uncompressed, output.simpiece ])
     document.body.style.cursor = 'default'
     this.btnstate = false
   }

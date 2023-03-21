@@ -24,29 +24,17 @@ export class AppService {
         return this.http.get<any>(loadUrl).toPromise()
     }
 
-    async executeLoadService(files : any) {
-        var outputUncompressed = { time: 0, size: 0}
-        var outputChimp = { time: 0, size: 0}
-        var outputPatas = { time: 0, size: 0}
-        
-        var loadUrl = 'http://localhost:5000/load?algorithm=uncompressed&filenames=' + files.selectedFiles.join(",")
+    async executeLoadService(files : any, error : any) {
+        var output = { uncompressed: 0, simpiece: 0}
+       
+        var loadUrl = 'http://localhost:5500/load?error=' + error + '&filenames=' + files.selectedFiles.join(",")
         console.log(loadUrl)
-        outputUncompressed = await this.http.get<any>(loadUrl).toPromise()
+        output = await this.http.get<any>(loadUrl).toPromise()
         
-        loadUrl = 'http://localhost:5000/load?algorithm=chimp&filenames=' + files.selectedFiles.join(",")
-        console.log(loadUrl)
-        outputChimp = await this.http.get<any>(loadUrl).toPromise()
-        
-        loadUrl = 'http://localhost:5000/load?algorithm=patas&filenames=' + files.selectedFiles.join(",")
-        console.log(loadUrl)
-        outputPatas = await this.http.get<any>(loadUrl).toPromise()
-        console.log(outputUncompressed)
-        console.log(outputChimp)
-        console.log(outputPatas)
+        console.log(output)
         return {
-            "uncompressed": outputUncompressed,
-            "chimp": outputChimp,
-            "patas": outputPatas
+            "uncompressed": output.uncompressed,
+            "simpiece": output.simpiece
         }
         
     }
