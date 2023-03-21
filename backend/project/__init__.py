@@ -98,3 +98,27 @@ def forecast_file_using_error():
             "mae": 0.98
             }
 
+@app.route("/knn/")
+@cross_origin()
+def knn_file_using_error():
+    error = request.args['error']
+    filenames = request.args['filenames'].split(',')
+    filenames.sort()
+    time.sleep(1)
+    return { "labels": [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20' ],
+            "datasets": [
+                {
+                "label": 'Original',
+                "data": [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 15, 16, 18, 15, 16 ]
+                },
+                {
+                "label": 'Top-1',
+                "data": [15.1, 16, 18.2, 15.4, 16, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None ]
+                },
+                {
+                "label": 'Top-2',
+                "data": [None, None, None, None, None, 15.9, 16.9, 19, 17, 14, None, None, None, None, None, None, None, None, None, None ]
+                }],
+            "recall": 80.00
+            }
+

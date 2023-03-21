@@ -17,17 +17,14 @@ export class MemLineChartComponent implements OnInit {
     animation: false,
     scales: {
       x: {},
-      y: {
-        min: 0,
-        max: 100
-      }
+      y: {}
     },
     plugins: {
       legend: {
         display: true
       },
       title: {
-        display: true,
+        display: false,
         text: 'Memory Utilization'
       },
     }
@@ -39,20 +36,7 @@ export class MemLineChartComponent implements OnInit {
 
   public chartMemChartData: ChartData<'bar'> = {
     labels: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15' ],
-    datasets: [
-    {
-      label: 'Uncompressed',
-      data: []
-    },
-    {
-      label: 'Chimp',
-      data: []
-    },
-    {
-      label: 'Patas',
-      data: []
-    }
-    ]
+    datasets: [ ]
   };
 
   constructor() { }
@@ -61,7 +45,7 @@ export class MemLineChartComponent implements OnInit {
   }
 
   public update(data : any): void {
-    this.chartMemChartData.datasets = data;
+    this.chartMemChartData = data;
     this.chart?.update();
   }
 

@@ -314,3 +314,117 @@ and better utilization of memory.
 
 
 
+
+
+    <!-- ======= KNN Section ======= -->
+    <section id="knn" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Clustering</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p style="text-align:justify">
+              In the second part of our demonstration, the user is given the
+oportunity to query the three database instances. 
+The user may submit one of the many available predefined
+queries made available by the database or submit a query composed
+on the fly.
+The first option is addressed to users that quickly want to grasp
+the advantages of compression with regard to query processing,
+through a series of carefully selected queries. The queries include
+a) ungrouped aggregates, b) grouped aggregates with different
+levels of cardinality, c) grouped aggregates with a filter, and d) joins.
+The different parameters involved in the queries are randomly
+updated as the user navigates in the web application and submits
+queries for execution, so that we limit the chance that the databases
+serve cached results.
+            </p>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <p style="text-align:justify">
+              The second option, that allows for composing arbitrary queries, is
+adrressed to more experienced users that want to sumbit additional
+queries
+to the three database instances,
+to further evaluate their performance.
+The users are provided with a rich SQL editor
+with syntax highlighting and any syntax errors are
+are reported to help users compose valid queries.
+After the execution of a query in each of the three
+databases, the user is presented with the number of rows in the result
+and the time needed to process the query
+              Through this second part of the demonstration,
+the users will obtain a clear understanding
+of the impact of compression in query processing,
+and the merits associated with the improved I/O
+and better utilization of memory.
+            </p>
+          </div>
+        </div>
+        <hr/>
+        <div class="row content">
+          <div class="col-sm">
+            <form #load = "ngForm"  [formGroup]="form" (ngSubmit)="knnFileSubmit($event)" novalidate>
+              <div class="table-responsive">
+                <table class="table table-striped table-responsive table-hover table-bordered border-dark">
+                  <thead>
+                    <tr class="bg-light">
+                      <th scope="col">Select</th>
+                      <th scope="col">Filename</th>
+                      <th scope="col"><span>Records</span></th>
+                      <th scope="col"><span>Range</span></th>
+                      <th scope="col"><span>View</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let file of files">
+                      <tr>
+                        <td><input type="checkbox" class="form-check-input" formArrayName="selectedFiles" [value]="file.name" (change)="onCheckboxChange($event)"/></td>
+                        <td>{{file.name}}</td>
+                        <td><span class="fw-bolder">{{ records[file.name] | number }}</span></td>
+                        <td><span class="fw-bolder">{{ range[file.name] | number }}</span></td>
+                        <td><a role="button" (click)="head(file.name)"><fa-icon icon="eye"></fa-icon></a></td>
+                      </tr>
+                    </ng-container>  
+                  </tbody>
+                </table>
+              </div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">ε</span>
+                </div>
+                <input type="number" class="form-control" name="error" min="0.0" max="100.0" value="1.00">
+                <button type="submit" class="btn btn-primary form-control" [disabled]="btnstate" >Submit</button>
+              </div>
+              
+            </form>
+          </div>
+          <div class="col-sm">
+            <div *ngIf="knnRecall==null; else elseKnnBlock">
+          </div>
+          <ng-template #elseKnnBlock>
+            <table class="table table-responsive table-hover border-light">
+              <thead>
+                <tr class="bg-light">
+                  <th class="h3" scope="col">Recall</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="h4"> {{ knnRecall }} % </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
+              <app-mem-line-chart-1></app-mem-line-chart-1>
+          </div>
+        </div>
+        
+      </div>
+    </section><!-- End Query Section -->
+
+
+

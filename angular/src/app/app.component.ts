@@ -59,6 +59,7 @@ export class AppComponent {
   selectRmse: 0;
   forecastMae: 0;
   forecastRmse: 0;
+  knnRecall: 0;
 
   constructor(private route: ActivatedRoute,
     private router: Router, private appService: AppService, fb: FormBuilder, library: FaIconLibrary,
@@ -129,6 +130,19 @@ export class AppComponent {
     this.forecastRmse = output.rmse;
     console.log(this.forecastMae);
     console.log(this.forecastRmse);
+    document.body.style.cursor = 'default'
+    this.btnstate = false
+  }
+
+
+  async knnFileSubmit(event: any ) {
+    this.btnstate = true
+    document.body.style.cursor = 'wait'
+    this.memLineChart1.update([ 0, 0, 0 ])
+    var output = await this.appService.executeKnnService(this.form.value, event.target.error.value)
+    console.log(output)
+    this.memLineChart1.update(output)
+    this.knnRecall = output.recall;
     document.body.style.cursor = 'default'
     this.btnstate = false
   }

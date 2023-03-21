@@ -49,6 +49,15 @@ export class AppService {
         
     }
 
+    async executeKnnService(files : any, error : any) {    
+        var url = 'http://localhost:5500/knn?error=' + error + '&filenames=' + files.selectedFiles.join(",")
+        console.log(url)
+        var output = await this.http.get<any>(url).toPromise()
+        
+        console.log(output)
+        return output
+        
+    }
     async head(file : any) {
         var output = { lines: ""}        
         var url = 'http://localhost:5000/head?filename=' + file
