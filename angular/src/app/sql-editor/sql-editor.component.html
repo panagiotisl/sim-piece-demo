@@ -1,0 +1,39 @@
+<div class="row content">
+    <div class="navbar-collapse">
+        <nav class="nav nav-pills flex-column flex-sm-row">
+            <a class="{{ queryClass[1] }}" aria-current="page" role="button" (click)="query(1)">Query 1</a>
+            <a class="{{ queryClass[2] }}" aria-current="page" role="button" (click)="query(2)">Query 2</a>
+            <a class="{{ queryClass[3] }}" aria-current="page" role="button" (click)="query(3)">Query 3</a>
+            <a class="{{ queryClass[4] }}" aria-current="page" role="button" (click)="query(4)">Query 4</a>
+            <a class="{{ queryClass[0] }}" aria-current="page" role="button" (click)="query(0)">Custom Query</a>
+          </nav>
+    </div>
+    <hr />
+    <div class="col-sm">
+        <ace-editor 
+        [text]="text" 
+        style="height:250px;"
+        [theme]="theme"
+        [options]="options"
+        [readOnly]="readOnly"
+        [autoUpdateContent]="true"
+        [durationBeforeCallback]="1000"
+        (textChanged)="onChange($event)"
+        style="min-height: 400px; width:100%; overflow: auto;"
+        mode="sql">
+    </ace-editor>
+    <button type="submit" class="btn btn-primary" [disabled]="btnstate" (click)="executeQuery()">Submit</button>
+    </div>
+    <div class="col-sm">
+        <div *ngIf="sqlerror==''; else elseBlock">
+            <p class="h2">Result rows:</p>
+            <p class="h3">{{ rows | number }}</p>
+        </div>
+        <ng-template #elseBlock>
+            <p class="h2">Error:</p>
+            <p class="h4">{{ sqlerror }}</p>
+        </ng-template>
+        
+        <app-query-time-bar-chart></app-query-time-bar-chart>
+    </div>
+</div>

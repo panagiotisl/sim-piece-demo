@@ -1,0 +1,141 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+
+
+
+    <!-- ======= Load Section ======= -->
+    <section id="load" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Load Data</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p style="text-align:justify">
+              In the first part of our demonstration, the user is presented with a
+list of raw data files. The user may view the first lines
+of each file to gain insights on its attributes by clicking the view button
+next to the file name. Having viewed the information available, the
+user may select one or more files and submit them for insertion in
+the database. Then, the web application sequentially executes the
+insertion in each of three database instances, with no compression,
+Chimp compression, and Patas compression, respectively.
+            </p>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <p style="text-align:justify">
+              After the execution of these commands in each of the three
+databases, the user is shown the size of the database and the time
+needed to complete the loading.
+Through this first part of the demonstration, both inexperienced
+users and experts in data management, will gain insights on the
+space savings the state-of-the-art floating point compression ap-
+proaches offer and the impact these savings have on the database
+performance during data ingestion.
+            </p>
+          </div>
+        </div>
+        <hr/>
+        <div class="row content">
+          <div class="col-sm">
+            <form [formGroup]="form" (ngSubmit)="loadFileSubmit()" novalidate>
+              <div class="table-responsive">
+                <table class="table table-striped table-responsive table-hover table-bordered border-dark">
+                  <thead>
+                    <tr class="bg-light">
+                      <th scope="col">Select</th>
+                      <th scope="col">Filename</th>
+                      <th scope="col"><span>Records</span></th>
+                      <th scope="col"><span>View</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let file of files">
+                      <tr>
+                        <td><input type="checkbox" class="form-check-input" formArrayName="selectedFiles" [value]="file.name" (change)="onCheckboxChange($event)"/></td>
+                        <td>{{file.name}}</td>
+                        <td><span class="fw-bolder">{{ records[file.name] | number }}</span></td>
+                        <td><a role="button" (click)="head(file.name)"><fa-icon icon="eye"></fa-icon></a></td>
+                      </tr>
+                    </ng-container>  
+                  </tbody>
+                </table>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="btnstate">Submit</button>
+            </form>
+          </div>
+          <div class="col-sm">
+            <app-load-size-bar-chart></app-load-size-bar-chart>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Load Section -->
+
+
+
+    <!-- ======= Query Section ======= -->
+    <section id="query" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Query Data</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p style="text-align:justify">
+              In the second part of our demonstration, the user is given the
+oportunity to query the three database instances. 
+The user may submit one of the many available predefined
+queries made available by the database or submit a query composed
+on the fly.
+The first option is addressed to users that quickly want to grasp
+the advantages of compression with regard to query processing,
+through a series of carefully selected queries. The queries include
+a) ungrouped aggregates, b) grouped aggregates with different
+levels of cardinality, c) grouped aggregates with a filter, and d) joins.
+The different parameters involved in the queries are randomly
+updated as the user navigates in the web application and submits
+queries for execution, so that we limit the chance that the databases
+serve cached results.
+            </p>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <p style="text-align:justify">
+              The second option, that allows for composing arbitrary queries, is
+adrressed to more experienced users that want to sumbit additional
+queries
+to the three database instances,
+to further evaluate their performance.
+The users are provided with a rich SQL editor
+with syntax highlighting and any syntax errors are
+are reported to help users compose valid queries.
+After the execution of a query in each of the three
+databases, the user is presented with the number of rows in the result
+and the time needed to process the query
+              Through this second part of the demonstration,
+the users will obtain a clear understanding
+of the impact of compression in query processing,
+and the merits associated with the improved I/O
+and better utilization of memory.
+            </p>
+          </div>
+        </div>
+        <hr/>
+        <div class="row content">
+          <div class="col-sm">
+            <app-cpu-line-chart-2></app-cpu-line-chart-2>
+          </div>
+          <div class="col-sm">
+            <app-mem-line-chart-2></app-mem-line-chart-2>
+          </div>
+        </div>
+        <app-sql-editor></app-sql-editor>
+      </div>
+    </section><!-- End Query Section -->
+
+
+

@@ -1,0 +1,21 @@
+<div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="modalRef.close()"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div [innerHTML]="body"></div>            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+              Close
+            </button>
+        </div>
+    </div>
+</div>
